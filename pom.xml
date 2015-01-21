@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lychie</groupId>
   <artifactId>jexcel</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
   <name>jexcel</name>
   <url>http://maven.apache.org</url>
