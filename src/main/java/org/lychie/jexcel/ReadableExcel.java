@@ -194,7 +194,7 @@ public class ReadableExcel extends Excel {
 				vmap.put(VALIDITY, validity);
 				if (!validity) {
 					String extra = errorOf(propertyType, stringCellValue,
-							row.getRowNum(), columnIndex);
+							row.getRowNum(), columnIndex, validation.getCause());
 					vmap.put(EXTRA, extra);
 					interrupt();
 				}
@@ -250,15 +250,22 @@ public class ReadableExcel extends Excel {
 	 *            单元格所在的行
 	 * @param column
 	 *            单元格所在的列
+	 * @param cause
+	 *            校验失败原因
 	 * @return
 	 */
-	private String errorOf(Class<?> type, String value, int row, int column) {
+	private String errorOf(Class<?> type, String value, int row, int column,
+			String cause) {
 		StringBuilder message = new StringBuilder();
 		message.append("【").append(++row).append("行,");
 		message.append(ColumnIndexConverter.getIndex(++column));
-		message.append("列】校验未通过, \"").append(value);
-		message.append("\"无法转换成期望的").append(typeNameConverter(type));
-		message.append("类型。");
+		message.append("列】校验未通过, \"").append(value).append("\" ");
+		if (cause == null) {
+			message.append("无法转换成期望的");
+			message.append(typeNameConverter(type)).append("类型。");
+		} else {
+			message.append(cause);
+		}
 		return message.toString();
 	}
 

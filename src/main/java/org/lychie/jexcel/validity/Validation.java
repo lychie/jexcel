@@ -14,5 +14,12 @@ public interface Validation {
 	 * @return 若校验通过, 则返回true; 否则返回false
 	 */
 	boolean validate(Class<?> type, String name, String value);
+	
+	/**
+	 * 获取检验失败原因
+	 * 
+	 * @return
+	 */
+	String getCause();
 
 }

@@ -6,6 +6,8 @@ import org.lychie.jutil.TypeUtil;
 
 public class BasicValidation implements Validation {
 
+	private String cause;
+	
 	@Override
 	public boolean validate(Class<?> type, String name, String value) {
 		if (TypeUtil.isInteger(type)) {
@@ -109,6 +111,25 @@ public class BasicValidation implements Validation {
 			/* ignore */
 			return false;
 		}
+	}
+
+	/**
+	 * 获取检验失败原因
+	 * 
+	 * @return
+	 */
+	@Override
+	public String getCause() {
+		return cause;
+	}
+
+	/**
+	 * 设置检验失败原因
+	 * 
+	 * @param cause
+	 */
+	public void setCause(String cause) {
+		this.cause = cause;
 	}
 
 }
