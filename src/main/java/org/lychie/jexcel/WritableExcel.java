@@ -39,6 +39,7 @@ public class WritableExcel extends Excel {
 	private ClassWrapper wrapper;
 	private XSSFWorkbook workbook;
 	private ValueFormat valueFormat;
+	private static final String EMPTY = "";
 
 	/**
 	 * 构建可写的EXCEL对象
@@ -169,17 +170,21 @@ public class WritableExcel extends Excel {
 	 *            值类型
 	 */
 	private void setCellValue(XSSFCell cell, Object value, Class<?> type) {
-		if (TypeUtil.isNumber(type) || BeanClass.isFrom(type, Number.class)) {
-			BigDecimal decimal = new BigDecimal(value.toString(),
-					MathContext.UNLIMITED);
-			cell.setCellValue(decimal.doubleValue());
-		} else if (TypeUtil.isBooleanType(type)) {
-			Boolean bool = ConvertUtil.convert(value.toString(), Boolean.class);
-			cell.setCellValue(bool);
-		} else if (type == Date.class) {
-			cell.setCellValue(DateUtil.format((Date) value));
+		if (value == null) {
+			cell.setCellValue(EMPTY);
 		} else {
-			cell.setCellValue(value.toString());
+			String strValue = value.toString();
+			if (TypeUtil.isNumber(type) || BeanClass.isFrom(type, Number.class)) {
+				BigDecimal decimal = new BigDecimal(strValue, MathContext.UNLIMITED);
+				cell.setCellValue(decimal.doubleValue());
+			} else if (TypeUtil.isBooleanType(type)) {
+				Boolean bool = ConvertUtil.convert(strValue, Boolean.class);
+				cell.setCellValue(bool);
+			} else if (type == Date.class) {
+				cell.setCellValue(DateUtil.format((Date) value));
+			} else {
+				cell.setCellValue(strValue);
+			}
 		}
 	}
 
